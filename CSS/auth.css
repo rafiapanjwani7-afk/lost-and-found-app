@@ -1,0 +1,191 @@
+/* Universal Reset & Google Font Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- Body Setup --- */
+body {
+    background-color: #0f172a; /* Premium Dark Navy Background */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Padding kam ki taake card height squeeze ho sake */
+    overflow: hidden; /* Screen se scrollbar ko force-hide karne ke liye */
+}
+
+/* --- Main Auth Container Card --- */
+.auth-container {
+    background: #1e293b; /* Sleek Slate Gray Card */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px 30px; /* Padding perfectly compact kar di */
+    width: 100%;
+    max-width: 400px; /* Form width ko standard screen friendly kiya */
+    
+    /* Premium Multi-layered Shadow */
+    box-shadow: 
+        0 4px 6px -1px rgba(0, 0, 0, 0.2), 
+        0 10px 25px -5px rgba(0, 0, 0, 0.4), 
+        0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Card Hover State */
+.auth-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 10px 15px -3px rgba(0, 0, 0, 0.3), 
+        0 20px 40px -5px rgba(0, 0, 0, 0.5), 
+        0 30px 60px -15px rgba(16, 185, 129, 0.1); /* Halka sa green neon aura effect */
+}
+
+/* --- App Title / Header --- */
+.auth-header {
+    text-align: center;
+    margin-bottom: 16px; /* Spacing mazeed kam ki taaki element squeeze hon */
+}
+
+.auth-header h1 {
+    color: #ffffff;
+    font-size: 24px; /* Font thoda compact kiya vertical pixels bachane ke liye */
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+}
+
+.auth-header p {
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+/* --- Input Form Groups --- */
+.form-group {
+    margin-bottom: 10px; /* Inputs ke beech ka gap 20px se kam karke 10px kiya */
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+/* --- Modern Inputs --- */
+.form-control {
+    width: 100%;
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 8px 12px; /* Sleek vertical height settings */
+    color: #ffffff;
+    font-size: 13.5px;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: #475569;
+}
+
+/* Input Focus State */
+.form-control:focus {
+    outline: none;
+    border-color: #10b981; 
+    box-shadow: 
+        inset 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+        0 0 0 4px rgba(16, 185, 129, 0.25); 
+}
+
+/* --- Premium Action Button --- */
+.btn-auth {
+    width: 100%;
+    background: #10b981; /* Emerald Green */
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px; /* High dynamic compression */
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 6px;
+}
+
+.btn-auth:hover {
+    background: #059669;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-auth:active {
+    transform: translateY(0);
+}
+
+/* --- Toggle Form Links (Footer) --- */
+.auth-footer {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #94a3b8;
+}
+
+.auth-footer a {
+    color: #10b981;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 4px;
+    transition: color 0.2s ease;
+}
+
+.auth-footer a:hover {
+    color: #34d399;
+    text-decoration: underline;
+}
+
+/* --- SweetAlert Theme Overrides --- */
+.swal2-popup {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border-radius: 16px !important;
+}
+
+.swal2-title,
+.swal2-html-container {
+    color: #ffffff !important;
+}
+
+.swal2-confirm {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    transition: 0.3s ease;
+}
+
+.swal2-confirm:hover {
+    background: #059669 !important;
+}
+
+.swal2-cancel {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+}
+
+.swal2-cancel:hover {
+    background: #475569 !important;
+}
