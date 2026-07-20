@@ -1,0 +1,68 @@
+/* Body and Background Layout */
+body {
+    background-color: #0f172a; /* Dark theme background */
+    color: #f8fafc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #1e293b !important;
+    border-bottom: 1px solid #334155;
+}
+
+/* Page Heading Customization */
+h2 {
+    letter-spacing: 0.5px;
+}
+
+/* Card Zoom Effect on Hover (Optional: Is se layout aur premium lagega) */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+/* Filter Buttons Styling */
+.filter-btn {
+    background: transparent;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    color: #f8fafc !important;
+}
+
+/* Active State Design (Green Background) */
+.active-filter {
+    background-color: #044321 !important;
+    color: #ffffff !important;
+}
+
+.hover-info:hover {
+    color: #0dcaf0 !important;
+}
+/* Filter Buttons Styling */
+.filter-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8 !important; /* 🌟 Yeh unselected buttons ko saaf gray color dega */
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    color: #f8fafc !important; /* Hover karne par white ho jayega */
+}
+
+/* Active State Design (Green Background) */
+.active-filter {
+    background-color: #044321 !important;
+    color: #ffffff !important; /* Active button ka text hamesha white rahega */
+}
+
+.hover-info:hover {
+    color: #0dcaf0 !important;
+}

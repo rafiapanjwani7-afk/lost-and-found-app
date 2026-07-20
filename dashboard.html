@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - Feed Hub</title>
+
+    <!-- Premium UI Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        /* Modern Dark Glassmorphic Dashboard Styles */
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Fixed Premium Hover Effect applied globally to dynamically rendered cards */
+        .card {
+            background: #1e293b !important;
+            border: 1px solid #334155 !important;
+            border-radius: 16px !important;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 12px 20px rgba(13, 202, 240, 0.15) !important;
+            border-color: #0dcaf0 !important;
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #0f172a !important;
+            border: 1px solid #334155 !important;
+            color: #f8fafc !important;
+            border-radius: 10px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0dcaf0 !important;
+            box-shadow: 0 0 0 3px rgba(13, 202, 240, 0.2) !important;
+        }
+
+        /* Premium Custom Dark Toggle Tabs Styles */
+        .btn-dark-toggle {
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            transition: all 0.25s ease;
+        }
+        .btn-check:checked + .btn-dark-toggle {
+            background-color: #044321 !important; /* Premium Dark Green from the image matching active state */
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(4, 67, 33, 0.3);
+        }
+        .btn-dark-toggle:hover {
+            color: #f8fafc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Premium Blurred Navbar -->
+    <nav class="navbar navbar-dark px-4 py-3">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+
+            <!-- Logo Section -->
+            <span class="navbar-brand mb-0 h1 fw-bold m-0">
+                <i class="fa-solid fa-bullhorn text-info me-2 animate-bounce"></i>Lost & Found Feed
+            </span>
+
+            <!-- Right Aligned Actions Controls -->
+            <div class="d-flex align-items-center gap-3">
+
+                <!-- Report Item Button -->
+                <button class="btn btn-info text-white fw-bold px-4" style="border-radius: 10px;" data-bs-toggle="modal"
+                    data-bs-target="#postModal">
+                    <i class="fa-solid fa-plus me-1"></i> Report Item
+                </button>
+
+                <!-- Premium User Profile Dropdown -->
+                <div class="dropdown">
+                    <!-- Avatar Circle (Clickable Trigger) -->
+                    <div id="user-avatar"
+                        class="d-flex align-items-center justify-content-center bg-info text-dark fw-bold position-relative"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none !important;">
+                        U
+                    </div>
+
+                    <!-- Dropdown Menu Card -->
+                    <ul class="dropdown-menu dropdown-menu-end p-3 shadow-lg border-secondary text-center"
+                        style="background-color: #1e293b; min-width: 240px; border-radius: 12px; margin-top: 10px;">
+
+                        <!-- Big Circle Inside Card -->
+                        <div id="menu-avatar"
+                            class="d-flex align-items-center justify-content-center bg-info text-dark fw-bold mx-auto mb-2"
+                            style="width: 55px; height: 55px; border-radius: 50%; font-size: 1.5rem;">
+                            U
+                        </div>
+
+                        <!-- Name & Email Display -->
+                        <h6 id="menu-user-name" class="text-white fw-bold mb-0">Loading...</h6>
+                        <p id="menu-user-email" class="text-secondary small mb-3">loading@gmail.com</p>
+
+                        <hr class="border-secondary my-2">
+
+                        <!-- Logout Action Button -->
+                        <li>
+                            <button id="logout-btn"
+                                class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2"
+                                style="border-radius: 8px;">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout Account
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Workspace Container -->
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-extrabold text-white mb-1">Recent Reports</h2>
+                <p class="text-muted small">Live crowd-sourced local database status</p>
+            </div>
+        </div>
+
+        <!-- Grid layout matching app.js targets -->
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="posts-container">
+            <!-- Dynamic Post Cards will render here inside loop -->
+        </div>
+    </div>
+
+    <!-- Report Item Modal Structure -->
+    <div class="modal fade" id="postModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-white"
+                style="background-color: #1e293b; border: 1px solid #334155; border-radius: 24px; backdrop-filter: blur(16px);">
+                <div class="modal-header border-secondary border-opacity-50 pb-2 px-4 pt-4">
+                    <h5 class="modal-title text-info fw-bold fs-4">
+                        <i class="fa-solid fa-pen-to-square me-2"></i>Report An Item
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="post-form">
+                        
+                        <!-- Item Title / Name -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Item Title / Name</label>
+                            <input type="text" id="item-name" class="form-control text-white py-2.5"
+                                placeholder="e.g., Black Apple iPhone 13" required>
+                        </div>
+                        
+                        <!-- Premium Status Toggle Tabs (From Image 2 Concept) -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary mb-2">Current Status</label>
+                            <div class="d-flex bg-dark bg-opacity-40 p-1.5 gap-2" style="border-radius: 14px; border: 1px solid #334155;">
+                                <input type="radio" class="btn-check" name="item-status-toggle" id="status-lost" value="Lost" checked>
+                                <label class="btn btn-dark-toggle w-50 fw-bold py-2 m-0 text-center" for="status-lost" style="border-radius: 10px; cursor: pointer;">Lost Item</label>
+
+                                <input type="radio" class="btn-check" name="item-status-toggle" id="status-found" value="Found">
+                                <label class="btn btn-dark-toggle w-50 fw-bold py-2 m-0 text-center" for="status-found" style="border-radius: 10px; cursor: pointer;">Found Item</label>
+                            </div>
+                        </div>
+
+                        <!-- Description Input -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-secondary">Description / Precise Location</label>
+                            <textarea id="item-desc" class="form-control text-white" rows="3"
+                                placeholder="Describe unique features, marks or accurate area details..."
+                                required></textarea>
+                        </div>
+                        
+                        <!-- Visual Evidence / Image Compact Bar Layout -->
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-secondary mb-2">Visual Evidence / Image</label>
+                            <div class="d-flex align-items-center bg-dark bg-opacity-40 p-2"
+                                style="border-radius: 12px; border: 1px solid #334155;">
+
+                                <!-- Styled Custom Button -->
+                                <button type="button" class="btn btn-sm btn-info text-white fw-bold px-3 py-2"
+                                    style="border-radius: 8px; background: linear-gradient(135deg, #0dcaf0, #0aa2c0); border: none;"
+                                    onclick="document.getElementById('item-image').click()">
+                                    <i class="fa-solid fa-image me-1"></i> Choose Photo
+                                </button>
+
+                                <!-- Dynamic File Name Text -->
+                                <span id="file-name-display"
+                                    class="text-secondary small ms-3 text-truncate flex-grow-1">No photo attached</span>
+
+                                <!-- Hidden Actual File Input (Required for Supabase upload) -->
+                                <input type="file" id="item-image" class="d-none" accept="image/*" required>
+                            </div>
+
+                            <!-- Compact Preview Container -->
+                            <div class="mt-3 text-center">
+                                <img id="image-preview" src="" alt="Image Preview" class="img-fluid d-none"
+                                    style="max-height: 140px; border-radius: 12px; border: 1px solid #475569; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-info w-100 text-white fw-bold py-3 mt-2" id="submit-post-btn"
+                            style="border-radius: 14px; font-size: 1.05rem; background: linear-gradient(135deg, #0dcaf0, #0aa2c0); border: none;">
+                            Broadcast Report <i class="fa-solid fa-paper-plane ms-1"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third-Party Execution Engines -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Core JS System Integration -->
+    <script type="module" src="JS/dashboard.js"></script>
+</body>
+
+</html>

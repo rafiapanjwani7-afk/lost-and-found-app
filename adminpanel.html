@@ -1,102 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Control Center</title>
+    <title>Lost & Found - Admin Control</title>
+
+    <!-- Premium UI Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="CSS/admin.css">
     <style>
-        body { background-color: #0f172a; color: #f8fafc; }
-        .table-dark { --bs-table-bg: #1e293b; --bs-table-border-color: #334155; }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-table-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .table {
+            color: #f8fafc !important;
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background-color: #0f172a !important;
+            color: #94a3b8 !important;
+            border-bottom: 2px solid #334155 !important;
+            padding: 16px;
+        }
+
+        .table td {
+            background-color: #1e293b !important;
+            border-bottom: 1px solid #334155 !important;
+            padding: 16px;
+            vertical-align: middle;
+        }
+
+        .text-muted { color: #94a3b8 !important; }
+        .text-secondary { color: #cbd5e1 !important; }
+
+        .btn-action {
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .btn-status-update {
+    background-color: #044321;
+    color: #ffffff;
+    border: 1px solid #15803d;
+}
+.btn-status-update:hover {
+    background-color: #15803d;
+    color: #ffffff;
+}
     </style>
 </head>
+
 <body>
 
-    <!-- Admin Nav -->
-    <nav class="navbar navbar-dark bg-dark px-4 py-3 border-bottom border-secondary">
-        <span class="navbar-brand mb-0 h1 text-danger"><i class="fa-solid fa-lock me-2"></i>Admin Dashboard</span>
-        <div>
-            <a href="dashboard.html" class="btn btn-outline-light me-2">View Feed</a>
-            <button class="btn btn-danger" id="admin-logout">Logout</button>
+    <!-- Admin Navbar -->
+    <nav class="navbar navbar-dark px-4 py-3">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <span class="navbar-brand mb-0 h1 fw-bold m-0 text-info">
+                <i class="fa-solid fa-shield-halved me-2"></i>Admin Dashboard
+            </span>
+            <div class="d-flex gap-3">
+                <a href="dashboard.html" class="btn btn-outline-info fw-bold btn-action">
+                    <i class="fa-solid fa-arrow-left me-1"></i> User Feed
+                </a>
+                <button id="logout-btn" class="btn btn-outline-danger fw-bold btn-action">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
         </div>
     </nav>
 
+    <!-- Admin Main Container -->
     <div class="container my-5">
-        <!-- Manage Posts Section -->
-        <h3 class="text-info mb-4"><i class="fa-solid fa-file-invoice me-2"></i>Manage All Reports</h3>
-        <div class="table-responsive mb-5">
-            <table class="table table-dark table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Item Name</th>
-                        <th>Status</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-posts-table">
-                    <!-- Dynamic Rows -->
-                </tbody>
-            </table>
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="fw-extrabold text-white mb-1">Manage Reported Items</h2>
+                <p class="text-muted small">Overview of all active database logs across the system</p>
+            </div>
         </div>
 
-        <!-- Manage Users Section -->
-        <h3 class="text-warning mb-4"><i class="fa-solid fa-users me-2"></i>Manage Registered Users</h3>
-        <div class="table-responsive">
-            <table class="table table-dark table-hover align-middle">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-users-table">
-                    <!-- Dynamic Rows -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Edit Post Modal for Admin -->
-    <div class="modal fade" id="adminEditModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-white" style="background-color: #1e293b; border: 1px solid #334155;">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-info">Edit Item Post</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="admin-edit-form">
-                        <input type="hidden" id="edit-post-id">
-                        <div class="mb-3">
-                            <label class="form-label">Item Name</label>
-                            <input type="text" id="edit-item-name" class="form-control bg-dark text-white border-secondary" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select id="edit-item-status" class="form-select bg-dark text-white border-secondary">
-                                <option value="Lost">Lost</option>
-                                <option value="Found">Found</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea id="edit-item-desc" class="form-control bg-dark text-white border-secondary" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-info w-100 text-white">Save Changes</button>
-                    </form>
-                </div>
+        <!-- Table Responsive Card -->
+        <div class="admin-table-card shadow-lg">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Preview</th>
+                            <th>Item Details</th>
+                            <th>Status</th>
+                            <th>Reporter ID</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        <!-- Dynamic rows will inject here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Bootstrap & SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="admin.js"></script>
+
+    <!-- Admin JS Module -->
+    <script type="module" src="JS/admin.js"></script>
 </body>
+
 </html>

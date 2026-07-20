@@ -1,0 +1,153 @@
+  body { background-color: #0f172a; color: #f8fafc; }
+        .navbar { background-color: #1e293b; border-bottom: 1px solid #334155; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; overflow: hidden; }
+        .item-img { height: 200px; object-fit: cover; width: 100%; }
+        /* SweetAlert Global Custom Dark Theme Override */
+/* SweetAlert Modern Dark Theme (Without Icon Bugs) */
+.swal2-popup {
+    background-color: #1a2333 !important; /* Premium dark background */
+    color: #f8fafc !important; 
+    border-radius: 16px !important; 
+    border: 1px solid #2e3c52 !important; 
+    padding: 2rem !important;
+}
+
+/* Heading Style */
+.swal2-title {
+    color: #38bdf8 !important; /* Soft sky blue color */
+    font-weight: 700 !important;
+    font-size: 1.75rem !important;
+    margin-top: 10px !important;
+}
+
+/* Description Text */
+.swal2-html-container {
+    color: #cbd5e1 !important; 
+    font-size: 1rem !important;
+}
+
+/* Confirm Button Styling */
+.swal2-confirm {
+    background-color: #0ea5e9 !important; /* Solid blue button */
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    padding: 12px 30px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Button Hover State */
+.swal2-confirm:hover {
+    background-color: #0284c7 !important;
+}
+
+/* FIX: Icon elements alignment aur border issues short out karne ke liye */
+.swal2-icon {
+    border-color: currentColor !important;
+    background: transparent !important;
+}
+.swal2-icon.swal2-success .swal2-success-ring {
+    border: 4px solid rgba(16, 185, 129, 0.3) !important; /* Subtle green ring */
+}
+/* Yeh line kisi bhi unwanted extra borders ya cross lines ko clean karegi */
+.swal2-icon * {
+    border-color: inherit !important;
+    background-color: transparent !important;
+}
+/* ================= TREAD CAREFULLY: FIXED ICON ANIMATION ================= */
+
+/* Success circle ring ka color */
+.swal2-icon.swal2-success {
+    border-color: #10b981 !important;
+}
+
+/* Tick mark ki lines ko wapas lane ke liye core fixes */
+.swal2-icon.swal2-success .swal2-success-line-tip,
+.swal2-icon.swal2-success .swal2-success-line-long {
+    background-color: #10b981 !important; /* Green tick mark lines */
+    z-index: 2 !important;
+}
+
+/* SweetAlert ke background masking elements ko dark theme se match karna */
+.swal2-icon.swal2-success .swal2-success-circular-line-left,
+.swal2-icon.swal2-success .swal2-success-circular-line-right,
+.swal2-icon.swal2-success .swal2-success-fix {
+    background-color: #1a2333 !important; /* Yeh wahi color hona chahiye jo aapke popup ka background hai */
+}
+
+/* Kisi bhi unwanted cross-border line ko hide karne ke liye */
+.swal2-icon {
+    box-shadow: none !important;
+}
+.card {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(13, 202, 240, 0.15);
+    border-color: #0dcaf0 !important;
+}
+.btn-dark-toggle {
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    transition: all 0.25s ease;
+}
+.btn-check:checked + .btn-dark-toggle {
+    background-color: #044321 !important; /* Premium Dark Green for Selected state */
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(4, 67, 33, 0.3);
+}
+.btn-dark-toggle:hover {
+    color: #f8fafc;
+}
+
+/* Upload Zone Hover Effect */
+.upload-zone:hover {
+    border-color: #0dcaf0 !important;
+    background-color: rgba(13, 202, 240, 0.05) !important;
+}
+/* Placeholder text color fix */
+.form-control::placeholder {
+    color: #64748b !important; /* Cool grey color for high readability */
+    opacity: 0.7;
+}
+
+/* For browsers compatibility */
+::-webkit-input-placeholder { color: #64748b !important; opacity: 0.7; }
+:-ms-input-placeholder { color: #64748b !important; opacity: 0.7; }
+::placeholder { color: #64748b !important; opacity: 0.7; }
+.form-control,
+.form-select {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: #f8fafc !important;
+    border-radius: 10px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0dcaf0 !important;
+    box-shadow: 0 0 0 3px rgba(13, 202, 240, 0.2) !important;
+}
+
+/* Yahan paste karein */
+.form-control::placeholder {
+    color: #64748b !important;
+    opacity: 0.7;
+}
+/* Subtitles and Small Labels Visibility Fix */
+.text-muted, .text-secondary {
+    color: #94a3b8 !important; /* Premium light slate color for high visibility */
+}
+
+/* Selected File Text Visibility Fix */
+#file-name-display.text-secondary {
+    color: #94a3b8 !important;
+}

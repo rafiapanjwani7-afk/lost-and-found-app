@@ -1,4 +1,5 @@
-import supabase from "../supabase.js";
+// 🔥 FIX 1: Curly brackets lagayein kyunki supabase.js se named export ho raha hai
+import { supabase } from "./supabase.js"; 
 
 // ================= SIGNUP =================
 
@@ -90,8 +91,6 @@ async function login(event) {
             password: loginPassword,
         })
 
-        console.log(data);
-
         if (error) {
             console.log(error);
             if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
@@ -105,7 +104,7 @@ async function login(event) {
                 title: 'Success!',
                 text: 'Login Successful',
                 icon: 'success',
-                showConfirmButton: '#10b981'
+                confirmButtonColor: '#10b981'
             });
             setTimeout(() => {
                 window.location.href = "dashboard.html"
@@ -150,27 +149,6 @@ supabase.auth.onAuthStateChange((event, session) => {
     }
 })
 
-async function loginWithGoogle() {
-    console.log("Google button clicked");
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-            redirectTo: `${window.location.origin}/dashboard.html`
-            // redirectTo: 'http://127.0.0.1:5500/dashboard.html'    
-            //redirectTo: 'https://rafiapanjwani7-afk.github.io/post_app/dashboard.html'
-        }
-    });
-
-    console.log(data);
-    console.log(error);
-
-    if (error) {
-        Swal.fire("Error", error.message, "error");
-    }
-}
 window.signup = signup
 window.login = login
-window.loginWithGoogle = loginWithGoogle
-
-export { supabase }
