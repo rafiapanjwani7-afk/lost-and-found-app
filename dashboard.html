@@ -23,9 +23,6 @@
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid #1e293b;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
         /* Fixed Premium Hover Effect applied globally to dynamically rendered cards */
@@ -64,13 +61,85 @@
             border: none;
             transition: all 0.25s ease;
         }
-        .btn-check:checked + .btn-dark-toggle {
-            background-color: #044321 !important; /* Premium Dark Green from the image matching active state */
+
+        .btn-check:checked+.btn-dark-toggle {
+            background-color: #044321 !important;
+            /* Premium Dark Green */
             color: #ffffff !important;
             box-shadow: 0 4px 12px rgba(4, 67, 33, 0.3);
         }
+
         .btn-dark-toggle:hover {
             color: #f8fafc;
+        }
+
+        /* SweetAlert Main Modal Box */
+        .swal2-popup {
+            background-color: #1e293b !important;
+            /* Dark Slate Background */
+            color: #f8fafc !important;
+            /* Text Color */
+            border: 1px solid #334155 !important;
+            /* Subtle Border */
+            border-radius: 18px !important;
+            /* Smooth Rounded Corners */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* Titles and Content Text */
+        .swal2-title {
+            color: #38bdf8 !important;
+            /* Light Cyan Accent */
+            font-weight: 700 !important;
+        }
+
+        .swal2-html-container {
+            color: #94a3b8 !important;
+            /* Soft Muted Body Text */
+        }
+
+        /* Buttons Styling */
+        .swal2-actions button {
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            padding: 10px 22px !important;
+        }
+
+        /* Confirm Button (Cyan Primary) */
+        .swal2-confirm {
+            background-color: #0ea5e9 !important;
+            border: none !important;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3) !important;
+        }
+
+        .swal2-confirm:hover {
+            background-color: #0284c7 !important;
+        }
+
+        /* Cancel / Danger Button */
+        .swal2-cancel {
+            background-color: #334155 !important;
+            color: #cbd5e1 !important;
+        }
+
+        .swal2-cancel:hover {
+            background-color: #475569 !important;
+        }
+
+        /* Success / Warning / Error Icons Adjustment */
+        .swal2-icon.swal2-success {
+            border-color: #10b981 !important;
+            color: #10b981 !important;
+        }
+
+        .swal2-icon.swal2-success [class^='swal2-success-line'] {
+            background-color: #10b981 !important;
+        }
+
+        .swal2-icon.swal2-warning,
+        .swal2-icon.swal2-error {
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
         }
     </style>
 </head>
@@ -78,7 +147,7 @@
 <body>
 
     <!-- Premium Blurred Navbar -->
-    <nav class="navbar navbar-dark px-4 py-3">
+    <nav class="navbar navbar-dark px-4 py-3 position-relative" style="z-index: 1050;">
         <div class="container-fluid d-flex justify-content-between align-items-center">
 
             <!-- Logo Section -->
@@ -89,40 +158,36 @@
             <!-- Right Aligned Actions Controls -->
             <div class="d-flex align-items-center gap-3">
 
-                <!-- Report Item Button -->
+                <!-- REPORT ITEM BUTTON -->
                 <button class="btn btn-info text-white fw-bold px-4" style="border-radius: 10px;" data-bs-toggle="modal"
                     data-bs-target="#postModal">
                     <i class="fa-solid fa-plus me-1"></i> Report Item
                 </button>
 
                 <!-- Premium User Profile Dropdown -->
-                <div class="dropdown">
-                    <!-- Avatar Circle (Clickable Trigger) -->
+                <div class="dropdown position-relative" style="z-index: 1060;">
                     <div id="user-avatar"
-                        class="d-flex align-items-center justify-content-center bg-info text-dark fw-bold position-relative"
+                        class="d-flex align-items-center justify-content-center bg-info text-dark fw-bold"
                         data-bs-toggle="dropdown" aria-expanded="false"
-                        style="width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none !important;">
+                        style="width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer;">
                         U
                     </div>
 
-                    <!-- Dropdown Menu Card -->
+                    <!-- UL Menu list par high z-index aur proper positioning -->
                     <ul class="dropdown-menu dropdown-menu-end p-3 shadow-lg border-secondary text-center"
-                        style="background-color: #1e293b; min-width: 240px; border-radius: 12px; margin-top: 10px;">
+                        style="background-color: #1e293b; min-width: 240px; border-radius: 12px; margin-top: 10px; z-index: 9999 !important; position: absolute;">
 
-                        <!-- Big Circle Inside Card -->
                         <div id="menu-avatar"
                             class="d-flex align-items-center justify-content-center bg-info text-dark fw-bold mx-auto mb-2"
                             style="width: 55px; height: 55px; border-radius: 50%; font-size: 1.5rem;">
                             U
                         </div>
 
-                        <!-- Name & Email Display -->
                         <h6 id="menu-user-name" class="text-white fw-bold mb-0">Loading...</h6>
                         <p id="menu-user-email" class="text-secondary small mb-3">loading@gmail.com</p>
 
                         <hr class="border-secondary my-2">
 
-                        <!-- Logout Action Button -->
                         <li>
                             <button id="logout-btn"
                                 class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2"
@@ -137,23 +202,98 @@
         </div>
     </nav>
 
-    <!-- Main Workspace Container -->
-    <div class="container my-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="fw-extrabold text-white mb-1">Recent Reports</h2>
-                <p class="text-muted small">Live crowd-sourced local database status</p>
+    <!-- Main Workspace Container: 2-Column Desktop Grid Split -->
+    <main class="container-fluid py-4 px-3 px-md-4">
+        <div class="row g-4">
+
+            <!-- 1. REPORT FORM (Mobile & Desktop dono par pehle aayega) -->
+            <div class="col-12 col-lg-4 order-1 sticky-form-container">
+                <div class="card p-3 p-md-4 text-white"
+                    style="background-color: #121929; border: 1px solid #1e293b; border-radius: 18px;">
+                    <h4 class="text-info fw-bold mb-3 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square"></i> Report An Item
+                    </h4>
+
+                    <form id="post-form">
+                        <!-- Item Title -->
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Item Title / Name</label>
+                            <input type="text" id="item-name" class="form-control bg-dark text-white border-secondary"
+                                placeholder="e.g., Black iPhone 13" required>
+                        </div>
+
+                        <!-- Status Toggle -->
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small d-block">Current Status</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="item-status-toggle" id="status-lost"
+                                    value="Lost" checked>
+                                <label class="btn btn-outline-danger fw-bold" for="status-lost">Lost Item</label>
+
+                                <input type="radio" class="btn-check" name="item-status-toggle" id="status-found"
+                                    value="Found">
+                                <label class="btn btn-outline-success fw-bold" for="status-found">Found Item</label>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Description / Location</label>
+                            <textarea id="item-desc" class="form-control bg-dark text-white border-secondary" rows="3"
+                                placeholder="Describe unique features..."></textarea>
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small d-block">Visual Evidence / Image</label>
+
+                            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                                <label for="item-image" class="btn btn-info text-white fw-semibold mb-0">
+                                    <i class="fa-solid fa-image me-1"></i> Choose Photo
+                                </label>
+                                <input type="file" id="item-image" class="d-none" accept="image/*">
+                                <span id="file-name-display" class="text-secondary small text-truncate"
+                                    style="max-width: 150px;">No photo attached</span>
+                            </div>
+
+
+                            <!-- Image Preview Container (Centered) -->
+                            <div class="text-center w-100">
+                                <img id="image-preview" src="" alt="Preview"
+                                    class="img-fluid rounded mt-2 d-none mx-auto"
+                                    style="max-height: 160px; object-fit: cover; border: 1px solid #334155;">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-post-btn"
+                            class="btn btn-info w-100 text-white fw-bold py-2 mt-2" style="border-radius: 12px;">
+                            Broadcast Report <i class="fa-solid fa-paper-plane ms-1"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <!-- Grid layout matching app.js targets -->
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="posts-container">
-            <!-- Dynamic Post Cards will render here inside loop -->
-        </div>
-    </div>
+            <!-- 2. RECENT REPORTS / CARDS FEED (Hamesha Form ke baad aayega) -->
+            <div class="col-12 col-lg-8 order-2">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h3 class="fw-bold text-white mb-0">Recent Reports</h3>
+                        <p class="text-secondary small mb-0">Live crowd-sourced local database status</p>
+                    </div>
+                </div>
 
-    <!-- Report Item Modal Structure -->
-    <div class="modal fade" id="postModal" tabindex="-1" aria-hidden="true">
+                <!-- Feed Cards Container -->
+                <div id="posts-container" class="row row-cols-1 row-cols-md-2 g-3">
+                    <!-- JS se cards yahan render honge -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Responsive View Modal Structure (Active only on small screens via button click) -->
+    <!-- <div class="modal fade" id="postModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-white"
                 style="background-color: #1e293b; border: 1px solid #334155; border-radius: 24px; backdrop-filter: blur(16px);">
@@ -161,20 +301,15 @@
                     <h5 class="modal-title text-info fw-bold fs-4">
                         <i class="fa-solid fa-pen-to-square me-2"></i>Report An Item
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
                     <form id="post-form">
-                        
-                        <!-- Item Title / Name -->
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-secondary">Item Title / Name</label>
-                            <input type="text" id="item-name" class="form-control text-white py-2.5"
-                                placeholder="e.g., Black Apple iPhone 13" required>
+                            <input type="text" id="item-name" class="form-control text-white py-2.5" placeholder="e.g., Black Apple iPhone 13" required>
                         </div>
                         
-                        <!-- Premium Status Toggle Tabs (From Image 2 Concept) -->
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-secondary mb-2">Current Status</label>
                             <div class="d-flex bg-dark bg-opacity-40 p-1.5 gap-2" style="border-radius: 14px; border: 1px solid #334155;">
@@ -186,51 +321,33 @@
                             </div>
                         </div>
 
-                        <!-- Description Input -->
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-secondary">Description / Precise Location</label>
-                            <textarea id="item-desc" class="form-control text-white" rows="3"
-                                placeholder="Describe unique features, marks or accurate area details..."
-                                required></textarea>
+                            <textarea id="item-desc" class="form-control text-white" rows="3" placeholder="Describe unique features, marks or accurate area details..." required></textarea>
                         </div>
                         
-                        <!-- Visual Evidence / Image Compact Bar Layout -->
                         <div class="mb-4">
                             <label class="form-label small fw-bold text-secondary mb-2">Visual Evidence / Image</label>
-                            <div class="d-flex align-items-center bg-dark bg-opacity-40 p-2"
-                                style="border-radius: 12px; border: 1px solid #334155;">
-
-                                <!-- Styled Custom Button -->
-                                <button type="button" class="btn btn-sm btn-info text-white fw-bold px-3 py-2"
-                                    style="border-radius: 8px; background: linear-gradient(135deg, #0dcaf0, #0aa2c0); border: none;"
+                            <div class="d-flex align-items-center bg-dark bg-opacity-40 p-2" style="border-radius: 12px; border: 1px solid #334155;">
+                                <button type="button" class="btn btn-sm btn-info text-white fw-bold px-3 py-2" style="border-radius: 8px;"
                                     onclick="document.getElementById('item-image').click()">
                                     <i class="fa-solid fa-image me-1"></i> Choose Photo
                                 </button>
-
-                                <!-- Dynamic File Name Text -->
-                                <span id="file-name-display"
-                                    class="text-secondary small ms-3 text-truncate flex-grow-1">No photo attached</span>
-
-                                <!-- Hidden Actual File Input (Required for Supabase upload) -->
-                                <input type="file" id="item-image" class="d-none" accept="image/*" required>
+                                <span id="file-name-display" class="text-secondary small ms-3 text-truncate flex-grow-1">No photo attached</span>
+                                <input type="file" id="item-image" class="d-none" accept="image/*">
                             </div>
-
-                            <!-- Compact Preview Container -->
                             <div class="mt-3 text-center">
-                                <img id="image-preview" src="" alt="Image Preview" class="img-fluid d-none"
-                                    style="max-height: 140px; border-radius: 12px; border: 1px solid #475569; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                                <img id="image-preview" src="" alt="Image Preview" class="img-fluid d-none" style="max-height: 140px; border-radius: 12px;">
                             </div>
                         </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-info w-100 text-white fw-bold py-3 mt-2" id="submit-post-btn"
-                            style="border-radius: 14px; font-size: 1.05rem; background: linear-gradient(135deg, #0dcaf0, #0aa2c0); border: none;">
+                        <button type="submit" class="btn btn-info w-100 text-white fw-bold py-3 mt-2" style="border-radius: 14px;">
                             Broadcast Report <i class="fa-solid fa-paper-plane ms-1"></i>
                         </button>
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Third-Party Execution Engines -->

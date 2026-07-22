@@ -146,8 +146,107 @@
 .text-muted, .text-secondary {
     color: #94a3b8 !important; /* Premium light slate color for high visibility */
 }
-
+.user-menu-dropdown, 
+#user-menu-card, 
+.profile-menu-container {
+    position: absolute; /* ya fixed/relative jo aapne pehle lagaya ho */
+    z-index: 9999 !important; /* Isse menu cards ke upar aayega */
+}
 /* Selected File Text Visibility Fix */
 #file-name-display.text-secondary {
     color: #94a3b8 !important;
+}
+#image-preview {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#image-preview.d-none {
+  display: none !important;
+}
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  /* Navbar adjustments */
+  .navbar-brand {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Hide text on mobile for small buttons if needed */
+  .btn-report-text {
+    display: none;
+  }
+  
+  /* Form image preview text overflow fix */
+  #file-name-display {
+    max-width: 100% !important;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  /* Card height fix for mobile */
+  .card-custom img {
+    height: 180px !important;
+  }
+}
+
+/* Tablet / Desktop image height */
+@media (min-width: 769px) {
+  .card-custom img {
+    height: 220px !important;
+  }
+}
+/* ==========================================
+   MOBILE & TABLET RESPONSIVE FIXES
+   ========================================== */
+
+/* Extra Small Screens (Phones, 576px and down) */
+@media (max-width: 576px) {
+  /* Navbar spacing */
+  .navbar {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .navbar-brand {
+    font-size: 1rem !important;
+  }
+
+  /* Form & Card Paddings */
+  .card {
+    padding: 1rem !important;
+  }
+
+  /* Reduce post card image height so feed fits nicely */
+  .card-custom img, 
+  #posts-container .card-img-top {
+    height: 180px !important;
+  }
+
+  /* Status Toggle Buttons on Mobile */
+  .btn-group .btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+
+/* Tablet Screens (Between 576px and 991px) */
+@media (min-width: 577px) and (max-width: 991px) {
+  #posts-container .card-img-top {
+    height: 200px !important;
+  }
+}
+
+/* Fix image upload text clipping */
+#file-name-display {
+  word-break: break-all;
+  white-space: normal;
+}
+@media (min-width: 992px) {
+  .sticky-form-container {
+    position: sticky;
+    top: 40px; /* Navbar ke neeche se gap rakhne ke liye */
+    align-self: flex-start; /* Flex layout mein stretching roknay ke liye */
+  }
 }

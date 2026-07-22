@@ -25,7 +25,8 @@ async function signup(event) {
             icon: 'warning',
             title: 'Weak Password',
             text: 'Password must be 6+ characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            confirmButtonColor:' #10b981'
         })
         return
     }
@@ -62,7 +63,8 @@ async function signup(event) {
         title: `${firstName}, Registration Successful`,
         text: 'Please check your email for verification link.',
         showConfirmButton: true,
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        confirmButtonColor:' #10b981',
     })
     setTimeout(() => {
         window.location.href = "dashboard.html"
@@ -98,6 +100,7 @@ async function login(event) {
                 title: 'Error!',
                 text: error.message,
                 icon: 'error',
+                confirmButtonColor:' #10b981'
             });
         } else {
             Swal.fire({
@@ -116,6 +119,7 @@ async function login(event) {
             title: 'Error!',
             text: 'Login failed',
             icon: 'error',
+            confirmButtonColor:' #10b981'
         });
     }
 }
@@ -129,7 +133,8 @@ supabase.auth.onAuthStateChange((event, session) => {
         Swal.fire({
             title: "Account Not Found",
             html: `<a href="index.html" style="color: #14b8a6; font-weight: bold; text-decoration: none;">Create an Account</a>`,
-            icon: 'warning'
+            icon: 'warning',
+            confirmButtonColor:' #10b981'
         });
     }
     if (event === 'SIGNED_IN') {
@@ -137,14 +142,16 @@ supabase.auth.onAuthStateChange((event, session) => {
         Swal.fire({
             title: 'Welcome!',
             text: `Hello, ${session.user.user_metadata.first_name || session.user.email}`,
-            icon: 'success'
+            icon: 'success',
+            confirmButtonColor:' #10b981'
         });
     }
     if (event === "SIGNED_OUT") {
         Swal.fire({
             icon: "info",
             title: "Logged Out",
-            text: "You have been signed out."
+            text: "You have been signed out.",
+            confirmButtonColor:' #10b981'
         });
     }
 })

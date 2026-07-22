@@ -1,0 +1,57 @@
+/* Sidebar Setup */
+.bg-darker {
+    background-color: #0f172a !important; /* Deep dark slate */
+}
+
+@media (min-width: 768px) {
+    .admin-sidebar {
+        width: 260px;
+        min-height: 100vh;
+    }
+}
+
+/* Mobile responsive menu bar */
+@media (max-width: 767px) {
+    .admin-sidebar {
+        width: 100% !important;
+        border-right: none !important;
+        border-bottom: 1px solid #334155 !important;
+    }
+
+    .admin-sidebar .nav {
+        overflow-x: auto;
+        white-space: nowrap;
+        flex-wrap: nowrap !important;
+    }
+}
+
+/* Custom Nav Links */
+.nav-link-custom {
+    color: #94a3b8;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-link-custom:hover {
+    color: #38bdf8;
+    background-color: rgba(56, 189, 248, 0.08);
+}
+
+.nav-link-custom.active {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+}
+
+/* Custom Scrollbars for Tables */
+.table-responsive::-webkit-scrollbar {
+    height: 6px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+#section-users p, #section-items p {
+    color: #94a3b8 !important; /* Soft visible grey color */
+}

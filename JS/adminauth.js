@@ -24,7 +24,8 @@ async function adminSignup(event) {
             icon: 'warning',
             title: 'Weak Password',
             text: 'Password must be 6+ characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            confirmButtonColor:' #00b4d8'
         });
         return;
     }
@@ -47,7 +48,7 @@ async function adminSignup(event) {
                 first_name: firstName,
                 last_name: lastName,
                 full_name: `${firstName} ${lastName}`,
-                role: 'admin' // 
+                role: 'admin' // jis ka role admin huga
             }
         }
     });
@@ -63,7 +64,8 @@ async function adminSignup(event) {
         title: `${firstName}, Registration Successful`,
         text: 'Please check your email for verification link.',
         showConfirmButton: true,
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        confirmButtonColor:' #00b4d8'
     });
     
     setTimeout(() => {
@@ -101,13 +103,14 @@ async function adminLogin(event) {
                 title: 'Error!',
                 text: error.message,
                 icon: 'error',
+                confirmButtonColor:' #00b4d8'
             });
         } else {
             Swal.fire({
                 title: 'Success!',
                 text: 'Login Successful',
                 icon: 'success',
-                showConfirmButton: '#10b981'
+                showConfirmButton: '#00b4d8'
             });
             setTimeout(() => {
                 window.location.href = "adminpanel.html";
@@ -119,28 +122,49 @@ async function adminLogin(event) {
             title: 'Error!',
             text: 'Login failed',
             icon: 'error',
+            confirmButtonColor:' #00b4d8'
         });
     }
 }
 
 // Google Redirect check
-supabase.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN') {
-        const userRole = session?.user?.user_metadata?.role;
-        if (userRole !== 'admin') {
-            await supabase.auth.signOut();
-            Swal.fire({
-                icon: 'error',
-                title: 'Access Denied',
-                text: 'Your Google account does not have Admin privileges!',
-                background: '#15222e',
-                color: '#f3f4f6'
-            });
-            return;
-        }
-        window.location.href = "adminpanel.html";
+supabase.auth.onAuthStateChange((event, session) => {
+    console.log('Event:', event)
+    console.log('Session:', session)
+    if (event === 'INITIAL_SESSION') {
+        // console.log("Please log in again.");
+        Swal.fire({
+            title: "Account Not Found",
+            html: `<a href="index.html" style="color: #0077b6; font-weight: bold; text-decoration: none;">Create an Account</a>`,
+            icon: 'warning',
+            confirmButtonColor:' #00b4d8',
+            customClass: {
+        confirmButton: 'custom-swal-btn' // Nayi CSS class
     }
-});
+        });
+    }
+    if (event === 'SIGNED_IN') {
+        console.log('User:', session?.user?.email)
+        Swal.fire({
+            title: 'Welcome!',
+            text: `Hello, ${session.user.user_metadata.first_name || session.user.email}`,
+            icon: 'success',
+            confirmButtonColor:'#00b4d8'
+        });
+    }
+    if (event === "SIGNED_OUT") {
+        Swal.fire({
+            icon: "info",
+            title: "Logged Out",
+            text: "You have been signed out.",
+            confirmButtonColor:' #00b4d8',
+            customClass: {
+        confirmButton: 'custom-swal-btn' // Nayi CSS class
+    }
+        });
+    }
+})
+
 
 
 window.adminSignup = adminSignup;

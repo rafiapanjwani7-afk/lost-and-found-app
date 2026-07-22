@@ -12,34 +12,31 @@ async function displayUserProfile() {
 
     if (!userAvatar) return;
 
-    // Supabase se current logged-in user ki details lein
     const { data: { user }, error } = await supabase.auth.getUser();
 
     if (error || !user) {
         console.error("User not logged in:", error);
-        window.location.href = "index.html"; // Agar logged in nahi hai toh wapas bhej dein
+        window.location.href = "index.html";
         return;
     }
 
-    // Extraction logic
     const fullName = user.user_metadata?.full_name || "User Connected";
     const email = user.email || "No Email Provided";
     const firstLetter = fullName.charAt(0).toUpperCase();
 
-    // Small Navbar Circle & Large Menu Circle text setting
     userAvatar.textContent = firstLetter;
     if (menuAvatar) menuAvatar.textContent = firstLetter;
-
-    // Text Content management for Card
     if (menuUserName) menuUserName.textContent = fullName;
     if (menuUserEmail) menuUserEmail.textContent = email;
-    
-    // Navbar ke avatar circle ko properly show karein
+
     userAvatar.style.setProperty('display', 'flex', 'important');
 }
 
-// Page load listener link
-document.addEventListener('DOMContentLoaded', displayUserProfile);
+// Page load listener
+document.addEventListener('DOMContentLoaded', () => {
+    displayUserProfile();
+    if (postsContainer) fetchPosts();
+});
 
 // 1. Fetch and Display All Posts
 async function fetchPosts() {
@@ -48,8 +45,7 @@ async function fetchPosts() {
         <div class="d-flex justify-content-center w-100 my-5">
             <div class="spinner-border text-info" role="status"></div>
         </div>`;
-    
-    // Fetching from 'lostor found table'
+
     const { data: posts, error } = await supabase
         .from('lostor found table')
         .select('*')
@@ -61,36 +57,72 @@ async function fetchPosts() {
         return;
     }
 
-    postsContainer.innerHTML = '';
     if (!posts || posts.length === 0) {
         postsContainer.innerHTML = `<h5 class="text-muted text-center w-100 my-5">No items reported yet.</h5>`;
         return;
     }
 
     postsContainer.innerHTML = posts.map(post => {
-        // FIX: Match column name with 'image_url'
         const itemImg = post['image_url'] || post['image-url'] || 'https://placehold.co/600x400/1e293b/f8fafc?text=No+Image';
-        
-        // Status checks for styles
-        const isLost = post.status && post.status.toLowerCase() === 'lost';
-        const badgeClass = isLost ? 'bg-danger' : 'bg-success';
+        const postAuthor = post.user_name || "Community Member";
+
+        // Dynamic Badge Logic
+      let badgeHTML = '';
+const statusLower = (post.status || '').toLowerCase();
+const typeLower = (post.item_type || '').toLowerCase();
+
+// 1. Agar Admin ne Status 'Resolved' kar diya hai:
+if (statusLower === 'resolved') {
+    // Check karein ke original item lost tha ya found
+    const typeLabel = typeLower === 'lost' ? 'LOST' : 'FOUND';
+    
+    badgeHTML = `<span class="badge text-white px-3 py-2" style="background-color: #0f172a; border: 1px solid #334155; border-radius: 20px; font-weight: 600;">
+        <i class="fa-solid fa-check text-success me-1"></i> RESOLVED (${typeLabel})
+    </span>`;
+} 
+// 2. Agar Active item 'Lost' hai:
+else if (typeLower === 'lost' || statusLower === 'lost') {
+    badgeHTML = `<span class="badge bg-danger px-3 py-2" style="border-radius: 20px; font-weight: 600;">
+        LOST
+    </span>`;
+} 
+// 3. Agar Active item 'Found' hai:
+else {
+    badgeHTML = `<span class="badge px-3 py-2 text-white" style="background-color: #064e3b; border-radius: 20px; font-weight: 600;">
+        FOUND
+    </span>`;
+}
 
         return `
             <div class="col">
-                <!-- Added 'card-custom' class here for hover styling backup if needed -->
-                <div class="card card-custom h-100 text-white" style="background-color: #1e293b; border: 1px solid #334155; border-radius: 16px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;">
-                    <div style="height: 220px; overflow: hidden; background-color: #0f172a;">
+                <div class="card card-custom h-100 text-white" style="background-color: #1e293b; border: 1px solid #334155; border-radius: 16px; overflow: hidden;">
+                    
+                    <!-- Image Box -->
+                    <div style="height: 200px; overflow: hidden; background-color: #0f172a;">
                         <img src="${itemImg}" class="w-100 h-100 card-img-top" alt="${post.item_name || 'Item'}" style="object-fit: cover;">
                     </div>
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="badge ${badgeClass} px-3 py-2" style="border-radius: 20px; font-weight: 600;">${post.status}</span>
-                            <small class="text-muted">
-                                <i class="fa-regular fa-user me-1"></i> User Connected
+
+                    <div class="card-body d-flex flex-column p-3">
+                        
+                        <!-- Top Dynamic Badge -->
+                        <div class="mb-2">
+                            ${badgeHTML}
+                        </div>
+
+                        <!-- Title & Description -->
+                        <h5 class="card-title text-info fw-bold mb-2 text-truncate">${post.item_name || 'Untitled Item'}</h5>
+                        <p class="card-text text-secondary small flex-grow-1 mb-3">${post.description || 'No description provided.'}</p>
+
+                        <!-- Bottom Footer (Reporter Name) -->
+                        <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
+                            <small class="text-secondary fw-semibold" style="font-size: 0.8rem;">
+                                <i class="fa-regular fa-user me-1 text-info"></i> Reported by
+                            </small>
+                            <small class="text-white fw-bold text-truncate" style="font-size: 0.82rem; max-width: 130px;">
+                                ${postAuthor}
                             </small>
                         </div>
-                        <h5 class="card-title text-info fw-bold mb-2">${post.item_name || 'Untitled Item'}</h5>
-                        <p class="card-text text-secondary small flex-grow-1">${post.description || 'No description provided.'}</p>
+
                     </div>
                 </div>
             </div>
@@ -98,29 +130,28 @@ async function fetchPosts() {
     }).join('');
 }
 
-// 2. Premium Image Upload & Dynamic Preview Bar Logic
+
+// 2. Image Preview Setup
 const itemImage = document.getElementById('item-image');
 const fileNameDisplay = document.getElementById('file-name-display');
 const imagePreview = document.getElementById('image-preview');
 
 if (itemImage) {
-    itemImage.addEventListener('change', function() {
+    itemImage.addEventListener('change', function () {
         if (this.files && this.files[0]) {
             const file = this.files[0];
-            
-            // 1. File ka naam custom bar mein set karein
+
             if (fileNameDisplay) {
                 fileNameDisplay.textContent = file.name;
                 fileNameDisplay.classList.remove('text-secondary');
                 fileNameDisplay.classList.add('text-info', 'fw-semibold');
             }
-            
-            // 2. Preview image load karein
+
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 if (imagePreview) {
                     imagePreview.src = e.target.result;
-                    imagePreview.classList.remove('d-none'); // Image show kar dein
+                    imagePreview.classList.remove('d-none');
                 }
             }
             reader.readAsDataURL(file);
@@ -142,24 +173,23 @@ function resetUploadZone() {
     }
 }
 
-// Ensure preview is hidden initially
-if (imagePreview) imagePreview.classList.add('d-none');
-
+// 3. Post Submission Handling
 if (postForm) {
     postForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = document.getElementById('submit-post-btn');
-        if (!submitBtn) return;
-        
-        submitBtn.disabled = true;
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Processing...`;
+
+        const submitBtn = document.getElementById('submit-post-btn') || postForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.innerHTML : "Broadcast Report";
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Processing...`;
+        }
 
         const itemName = document.getElementById('item-name').value;
         const itemDesc = document.getElementById('item-desc').value;
         const imageFile = document.getElementById('item-image').files[0];
 
-        // 🔥 FIX 1: Radio buttons se current checked value read karna (Lost/Found)
         const checkedStatusInput = document.querySelector('input[name="item-status-toggle"]:checked');
         const itemStatus = checkedStatusInput ? checkedStatusInput.value : 'Lost';
 
@@ -170,34 +200,32 @@ if (postForm) {
             let publicUrl = '';
 
             if (imageFile) {
-                // Image file name unique banayein aur extension alag karein
                 const fileExt = imageFile.name.split('.').pop();
                 const fileName = `${Date.now()}.${fileExt}`;
-                const filePath = fileName; 
 
-                // Image upload to Supabase Bucket
                 const { error: uploadError } = await supabase.storage
                     .from('item-images')
-                    .upload(filePath, imageFile);
+                    .upload(fileName, imageFile);
 
                 if (uploadError) throw uploadError;
 
-                // Image ka public url get karein
                 const { data } = supabase.storage
                     .from('item-images')
-                    .getPublicUrl(filePath);
-                
+                    .getPublicUrl(fileName);
+
                 publicUrl = data.publicUrl;
             }
 
-            // Data key mapping with database structure
-            // 🔥 FIX 2: mapping to exact 'image_url' column name on Supabase
+            const fullName = user.user_metadata?.full_name || user.email.split('@')[0] || "Anonymous";
+
             const insertPayload = {
                 user_id: user.id,
+                user_name: fullName, 
                 item_name: itemName,
-                status: itemStatus,
+                status: itemStatus,            // Initial status ('Lost' or 'Found')
+                item_type: itemStatus.toLowerCase(), // Store type ('lost' or 'found')
                 description: itemDesc,
-                image_url: publicUrl 
+                'image-url': publicUrl
             };
 
             const { error: dbError } = await supabase
@@ -214,27 +242,23 @@ if (postForm) {
             });
 
             postForm.reset();
-            resetUploadZone(); // Reset dynamic file bar labels too
-            
-            // Safe Bootstrap Modal Hide Method
-            const modalEl = document.getElementById('postModal');
-            if (modalEl) {
-                const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                if (modalInstance) modalInstance.hide();
-            }
-            
+            resetUploadZone();
+
             fetchPosts();
 
         } catch (err) {
+            console.error("Submit error:", err);
             Swal.fire('Reporting Error', err.message, 'error');
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText || "Submit Post";
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
         }
     });
 }
 
-// 3. Logout Functionality integration
+// 4. Logout Functionality
 if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
         const { error } = await supabase.auth.signOut();
@@ -255,8 +279,4 @@ if (logoutBtn) {
     });
 }
 
-// Load feed automatically on load
-if (postsContainer) fetchPosts();
-
-// Global Window assignment
 window.fetchPosts = fetchPosts;
