@@ -104,7 +104,7 @@ async function fetchAdminItems() {
                     <span id="badge-${post.id}" class="badge ${badgeClass} px-3 py-1.5" style="border-radius: 12px;">${currentStatus}</span>
                 </td>
                 <td>
-                    <span class="font-monospace small text-muted">${post.user_id ? post.user_id.substring(0, 8) + '...' : 'System'}</span>
+                    <span class="font-monospace small text-secondary">${post.user_id ? post.user_id.substring(0, 8) + '...' : 'System'}</span>
                 </td>
                 <td class="text-center">
                     <div class="d-flex align-items-center justify-content-center gap-3">

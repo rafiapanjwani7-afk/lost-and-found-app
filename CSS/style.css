@@ -250,3 +250,103 @@
     align-self: flex-start; /* Flex layout mein stretching roknay ke liye */
   }
 }
+/* Active Tab Style */
+.filter-tab-group .btn.active-tab {
+    background-color: #064e3b !important; /* Premium Dark Green Active Highlight */
+    color: #ffffff !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.filter-tab-group .btn {
+    transition: all 0.2s ease-in-out;
+    font-size: 0.85rem;
+}
+
+.filter-tab-group .btn:hover:not(.active-tab) {
+    color: #0dcaf0 !important;
+}
+.custom-search-box {
+    width: 220px;
+}
+
+.custom-search-box .search-field {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: #ffffff !important;
+    padding-left: 36px !important; /* Space for search icon */
+    border-radius: 8px !important;
+    height: 38px;
+    font-size: 0.88rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-search-box .search-field:focus {
+    border-color: #0dcaf0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.15) !important;
+}
+
+.custom-search-box .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+/* Tab Group Heights match with Search Bar */
+.filter-tab-group {
+    height: 38px;
+    align-items: center;
+}
+
+.filter-tab-group .filter-btn {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+}
+/* Card Image Container */
+.card-img-box {
+    height: 220px;
+    overflow: hidden;
+    background-color: #0f172a;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+/* Card Image Styling */
+.card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%; /* Perfect focus spot for vertical & horizontal images */
+    transition: transform 0.3s ease;
+}
+
+/* Optional Smooth Hover Zoom Effect */
+.card-custom:hover .card-img-box img {
+    transform: scale(1.04);
+}
+/* Custom Card Polish */
+.card-custom {
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Hover Effect: Soft Cyan Glow */
+.card-custom:hover {
+    transform: translateY(-4px);
+    border-color: #0ea5e9 !important;
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+}
+
+/* Glassmorphism Badge styling */
+.badge-status {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+}
